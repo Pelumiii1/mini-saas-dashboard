@@ -6,7 +6,6 @@ export default function SettingsPage() {
   const [theme, setTheme] = useState("light");
   const [userName, setUserName] = useState("John Doe");
   const [userEmail, setUserEmail] = useState("john.doe@example.com");
-  console.log(theme);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -21,86 +20,148 @@ export default function SettingsPage() {
   useEffect(() => {
     document.documentElement.classList.remove("light", "dark");
     document.documentElement.classList.add(theme);
-    localStorage.setItem("theme", theme);
   }, [theme]);
 
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+    localStorage.setItem("theme", theme === "light" ? "dark" : "light");
   };
 
-  const handleProfileSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleProfileSubmit = () => {
     alert(`Profile Updated:\nName: ${userName}\nEmail: ${userEmail}`);
   };
 
   return (
-    <div className="p-8">
-      <h1
-        className={`text-3xl font-bold mb-8 ${
-          theme === "dark" ? "text-white" : "text-gray-900"
-        }}`}
-      >
-        Settings
-      </h1>
-
-      <div className="mb-8">
-        <h2
-          className={`text-2xl font-semibold mb-4 ${
+    <div className={`min-h-screen p-8 transition-colors duration-300`}>
+      <div className="max-w-4xl mx-auto">
+        <h1
+          className={`text-3xl font-bold mb-8 transition-colors duration-300 ${
             theme === "dark" ? "text-white" : "text-gray-900"
           }`}
         >
-          Theme Settings
-        </h2>
-        <button
-          onClick={toggleTheme}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded dark:bg-blue-700 dark:hover:bg-blue-600"
-        >
-          Toggle to {theme === "light" ? "Dark" : "Light"} Mode
-        </button>
-      </div>
+          Settings
+        </h1>
 
-      <div>
-        <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">
-          User Profile
-        </h2>
-        <form onSubmit={handleProfileSubmit} className="space-y-4">
-          <div>
-            <label
-              htmlFor="userName"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >
-              Name
-            </label>
-            <input
-              type="text"
-              id="userName"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 text-black dark:bg-gray-700 dark:text-white dark:border-gray-600"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="userEmail"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="userEmail"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 text-black dark:bg-gray-700 dark:text-white dark:border-gray-600"
-              value={userEmail}
-              onChange={(e) => setUserEmail(e.target.value)}
-            />
-          </div>
-          <button
-            type="submit"
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded dark:bg-green-700 dark:hover:bg-green-600"
+        {/* Theme Settings Card */}
+        <div
+          className={`mb-8 p-6 rounded-lg shadow-sm transition-colors duration-300 ${
+            theme === "dark"
+              ? "bg-gray-800 border border-gray-700"
+              : "bg-white border border-gray-200"
+          }`}
+        >
+          <h2
+            className={`text-2xl font-semibold mb-4 transition-colors duration-300 ${
+              theme === "dark" ? "text-white" : "text-gray-900"
+            }`}
           >
-            Update Profile
+            Theme Settings
+          </h2>
+          <p
+            className={`mb-4 text-sm transition-colors duration-300 ${
+              theme === "dark" ? "text-gray-300" : "text-gray-600"
+            }`}
+          >
+            Choose your preferred theme for the application
+          </p>
+          <button
+            onClick={toggleTheme}
+            className={`inline-flex items-center px-4 py-2 rounded-md font-medium transition-all duration-200 ${
+              theme === "dark"
+                ? "bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl"
+                : "bg-blue-500 hover:bg-blue-600 text-white shadow-md hover:shadow-lg"
+            }`}
+          >
+            <span className="mr-2">{theme === "light" ? "🌙" : "☀️"}</span>
+            Switch to {theme === "light" ? "Dark" : "Light"} Mode
           </button>
-        </form>
+        </div>
+
+        {/* User Profile Card */}
+        <div
+          className={`p-6 rounded-lg shadow-sm transition-colors duration-300 ${
+            theme === "dark"
+              ? "bg-gray-800 border border-gray-700"
+              : "bg-white border border-gray-200"
+          }`}
+        >
+          <h2
+            className={`text-2xl font-semibold mb-4 transition-colors duration-300 ${
+              theme === "dark" ? "text-white" : "text-gray-900"
+            }`}
+          >
+            User Profile
+          </h2>
+          <p
+            className={`mb-6 text-sm transition-colors duration-300 ${
+              theme === "dark" ? "text-gray-300" : "text-gray-600"
+            }`}
+          >
+            Update your personal information
+          </p>
+
+          <div className="space-y-6">
+            <div>
+              <label
+                htmlFor="userName"
+                className={`block text-sm font-medium mb-2 transition-colors duration-300 ${
+                  theme === "dark" ? "text-gray-200" : "text-gray-700"
+                }`}
+              >
+                Full Name
+              </label>
+              <input
+                type="text"
+                id="userName"
+                className={`w-full px-3 py-2 rounded-md border transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                  theme === "dark"
+                    ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:bg-gray-600"
+                    : "bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:bg-gray-50"
+                }`}
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                placeholder="Enter your full name"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="userEmail"
+                className={`block text-sm font-medium mb-2 transition-colors duration-300 ${
+                  theme === "dark" ? "text-gray-200" : "text-gray-700"
+                }`}
+              >
+                Email Address
+              </label>
+              <input
+                type="email"
+                id="userEmail"
+                className={`w-full px-3 py-2 rounded-md border transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                  theme === "dark"
+                    ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:bg-gray-600"
+                    : "bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:bg-gray-50"
+                }`}
+                value={userEmail}
+                onChange={(e) => setUserEmail(e.target.value)}
+                placeholder="Enter your email address"
+              />
+            </div>
+
+            <div className="pt-4">
+              <button
+                onClick={handleProfileSubmit}
+                className={`inline-flex items-center px-6 py-2 rounded-md font-medium transition-all duration-200 ${
+                  theme === "dark"
+                    ? "bg-green-600 hover:bg-green-700 text-white shadow-lg hover:shadow-xl"
+                    : "bg-green-500 hover:bg-green-600 text-white shadow-md hover:shadow-lg"
+                }`}
+              >
+                <span className="mr-2">💾</span>
+                Update Profile
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
