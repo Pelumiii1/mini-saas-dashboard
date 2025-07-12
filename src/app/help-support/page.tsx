@@ -21,8 +21,11 @@ export default function HelpSupportPage() {
     document.documentElement.classList.add(theme);
   }, [theme]);
 
-  const toggleFaq = (index) => {
-    setExpandedFaq(expandedFaq === index ? null : index);
+  const toggleFaq = (index: number) => {
+    if (expandedFaq === index) {
+      setExpandedFaq(null);
+      return;
+    }
   };
 
   const faqs = [
