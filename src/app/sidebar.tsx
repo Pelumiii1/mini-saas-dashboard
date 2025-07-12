@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FiHome, FiBarChart2, FiSettings, FiHelpCircle } from "react-icons/fi";
+import { useUser } from "@clerk/nextjs";
 
-const links = [
+const allLinks = [
   { href: "/", label: "Home", icon: FiHome },
   { href: "/dashboard", label: "Dashboard", icon: FiBarChart2 },
   { href: "/settings", label: "Settings", icon: FiSettings },
@@ -19,6 +20,11 @@ export default function Sidebar({
   toggleSidebar: () => void;
 }) {
   const pathname = usePathname();
+  const { isSignedIn } = useUser();
+
+  const links = isSignedIn
+    ? allLinks
+    : allLinks.filter((link) => link.href === "/");
 
   return (
     <>
